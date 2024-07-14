@@ -35,10 +35,10 @@ function MainNavbar() {
               <Link className="nav-link text-white" to="/patients">Patients</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-white" to="/appn">Appn</Link>
+              <Link className="nav-link text-white" to="/appn">Appointment</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-white" to="/diag">Diag</Link>
+              <Link className="nav-link text-white" to="/diag">Diagonosis</Link>
             </li>
           </ul>
         </div>
@@ -49,11 +49,11 @@ function MainNavbar() {
 
 function App() {
   const location = useLocation();
-
+  
   const isDiagRoute = location.pathname.startsWith('/gen-exam') || location.pathname.startsWith('/abd') || location.pathname.startsWith('/extg') || location.pathname.startsWith('/gyn') || location.pathname.startsWith('/cns') || location.pathname.startsWith('/cvs') || location.pathname.startsWith('/ent') || location.pathname.startsWith('/opt');
 
   return (
-    <Router>
+    <>
       {isDiagRoute ? <DiagNavbar /> : <MainNavbar />}
       <div style={{ marginTop: '60px' }}>
         <Routes>
@@ -72,8 +72,14 @@ function App() {
           <Route path="/opt" element={<Opth />} />
         </Routes>
       </div>
-    </Router>
+    </>
   );
 }
 
-export default App;
+export default function Root() {
+  return (
+    <Router>
+      <App />
+    </Router>
+  );
+}
