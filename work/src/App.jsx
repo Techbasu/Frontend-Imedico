@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Ensure Bootstrap JS is imported
 import './App.css';
@@ -16,34 +16,45 @@ import CVS from './components/CVS.jsx';
 import ENT from './components/ENT.jsx';
 import Opth from './components/Opth.jsx';
 import Login from './components/Login.jsx';
+import DiagNavbar from './components/DiagNavbar';
+
+function MainNavbar() {
+  return (
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+      <div className="container-fluid">
+        <Link className="navbar-brand text-white" to="/">Logo</Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <Link className="nav-link text-white" to="/log-in">Log In</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-white" to="/patients">Patients</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-white" to="/appn">Appn</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-white" to="/diag">Diag</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
+}
 
 function App() {
+  const location = useLocation();
+
+  const isDiagRoute = location.pathname.startsWith('/gen-exam') || location.pathname.startsWith('/abd') || location.pathname.startsWith('/extg') || location.pathname.startsWith('/gyn') || location.pathname.startsWith('/cns') || location.pathname.startsWith('/cvs') || location.pathname.startsWith('/ent') || location.pathname.startsWith('/opt');
+
   return (
     <Router>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
-        <div className="container-fluid">
-          <Link className="navbar-brand text-white" to="/">Logo</Link>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/log-in">Log In</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/patients">Patients</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/appn">Appn</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/diag">Diag</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      {isDiagRoute ? <DiagNavbar /> : <MainNavbar />}
       <div style={{ marginTop: '60px' }}>
         <Routes>
           <Route path="/log-in" element={<Login />} />
